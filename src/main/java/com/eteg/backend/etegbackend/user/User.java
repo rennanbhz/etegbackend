@@ -1,9 +1,16 @@
 package com.eteg.backend.etegbackend.user;
 
+import java.util.Collections;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.eteg.backend.movie.Movie;
 
 /** 
  * Represents a User
@@ -19,6 +26,9 @@ public class User
 	@Column private char gender;
 	@Column private String cpf;
 	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Movie> movie;
+
 	public User()
 	{
 		super();
@@ -32,12 +42,13 @@ public class User
 	 * @param gender User gender
 	 * @param cpf CPF of User
 	 */
-	public User(Integer userId, String name, char gender, String cpf)
+	public User(Integer userId, String name, char gender, String cpf, Movie movie)
 	{
 		this.userId = userId;
 		this.name = name;
 		this.gender = gender;
 		this.cpf = cpf;
+		this.movie = Collections.singletonList(movie);
 	}
 	
 	public Integer getUserId ()
@@ -79,4 +90,14 @@ public class User
 	{
 		this.cpf = cpf;
 	}
+	
+	public List<Movie> getmovieList() 
+	  {
+	    return movie;
+	  }
+
+	public void setMovieList(List<Movie> movie) 
+	  {
+	    this.movie = movie;
+	  }
 }
