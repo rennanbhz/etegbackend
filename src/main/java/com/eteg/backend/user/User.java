@@ -24,6 +24,7 @@ public class User
 	
 	@Column private String name;
 	@Column private char gender;
+	@Column private String birthDate;
 	@Column private String cpf;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -42,11 +43,12 @@ public class User
 	 * @param gender User gender
 	 * @param cpf CPF of User
 	 */
-	public User(Integer userId, String name, char gender, String cpf, Movie movie)
+	public User(Integer userId, String name, char gender, String dateOfBirth, String cpf, Movie movie)
 	{
 		this.userId = userId;
 		this.name = name;
 		this.gender = gender;
+		this.birthDate = dateOfBirth;
 		this.cpf = cpf;
 		this.movieList = Collections.singletonList(movie);
 	}
@@ -81,6 +83,14 @@ public class User
 		this.gender = gender;
 	}
 	
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+
 	public String getCpf()
 	{
 		return cpf;
@@ -100,4 +110,14 @@ public class User
 	  {
 	    this.movieList = movie;
 	  }
+
+	@Override
+	public String toString() {
+		return  "User: " + userId + 
+				"Name: " + name + 
+				"Gender; " + gender + 
+				"Date of birth: " + birthDate +
+				"CPF: " + cpf + 
+				"Movie List: " + movieList;
+	}
 }

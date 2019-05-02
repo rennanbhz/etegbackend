@@ -1,11 +1,13 @@
 package com.eteg.backend.rentalhistoric;
 
-import java.util.Date;
+import java.util.Collections;
+import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.eteg.backend.rental.Rental;
 
 /** 
  * Represents a Rental Historic of movies
@@ -15,9 +17,8 @@ import javax.persistence.Id;
 @Entity
 public class RentalHistoric
 {
-	
-	@Id @GeneratedValue private String movieName;
-	@Column private Date rentalDate;
+	@OneToMany (cascade = CascadeType.ALL)
+	private List<Rental> rentals;
 	
 	public RentalHistoric()
 	{
@@ -27,33 +28,16 @@ public class RentalHistoric
 	/**
 	 * Constructor with some defined informations.
 	 *
-	 * @param movieName name of movie
-	 * @param rentalDate Date the movie was Rented
+	 * @param Rental list of rentals
 	 */
-	public RentalHistoric(String movieName, Date rentalDate)
+	public RentalHistoric(Integer rentalHistoricId, Rental rentals)
 	{
 		super();
-		this.movieName = movieName;
-		this.rentalDate = rentalDate;
+		this.rentals = Collections.singletonList(rentals);
 	}
 
-	public String getMovieName()
+	public List<Rental> getRentalHistoricList()
 	{
-		return movieName;
-	}
-
-	public void setMovieName(String movieName)
-	{
-		this.movieName = movieName;
-	}
-
-	public Date getRentalDate()
-	{
-		return rentalDate;
-	}
-
-	public void setRentalDate(Date rentalDate)
-	{
-		this.rentalDate = rentalDate;
+		return rentals;
 	}
 }

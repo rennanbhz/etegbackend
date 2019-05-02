@@ -96,9 +96,13 @@ public class Movie
 	{
 		return user;
 	}
-	
-	public void setUserList(List<User> user)
-	{
-		this.user = user;
+
+	@Override
+	public String toString() {
+		return " Movie name: " + movieName + 
+			   " Genre: " + genre + 
+			   " Director: " + movieDirector + 
+			   " Quantity: " + quantity + 
+			   " User=" + user ;
 	}
 }

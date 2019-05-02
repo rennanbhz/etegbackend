@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eteg.backend.movie.Movie;
 import com.eteg.backend.movie.MovieRepository;
+import com.eteg.backend.util.ValidatorUtils;
 
 /**
  * Class responsible for exposing User Rest operations.
@@ -41,6 +42,17 @@ public class UserController
 	{
 		User createdUser = userRepository.save(user);
 
+		try
+		{
+			if (ValidatorUtils.isValidCPF(createdUser.getCpf())
+				& ValidatorUtils.isValidName(createdUser.getName())
+				& ValidatorUtils.isOverAge(createdUser.getBirthDate()));
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
 		return ResponseEntity.ok(createdUser);
 	}
 

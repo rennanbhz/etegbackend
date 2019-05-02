@@ -95,7 +95,7 @@ public class MovieController
 	/**
 	 * Updates a movie information.
 	 *
-	 * @param movie     Information to update
+	 * @param movie Information to update
 	 * @param movieName Name of the move to be updated
 	 * @return Status Ok
 	 */

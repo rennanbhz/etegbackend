@@ -1,7 +1,6 @@
 package com.eteg.backend.rental;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,9 @@ public class RentalController
 	private MovieRepository movieRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private RentalRepository rentalRepository;
+	
 
 	/**
 	 * Creates a movie in database.
@@ -38,82 +40,67 @@ public class RentalController
 	 * @param movie Information to be assigned to a new user
 	 * @return Movie with id filled in
 	 */
-	@PostMapping("/movie")
-	public ResponseEntity<Object> createMovie(@RequestBody Movie movie)
+	@PostMapping("/rents")
+	public ResponseEntity<Object> rentMovie(@RequestBody Movie movie, User user)
 	{
-		Movie createdMovie = movieRepository.save(movie);
-
-		return ResponseEntity.ok(createdMovie);
+		Rental rentedMovie = rentalRepository.save(movie, user);
+		
+		return ResponseEntity.ok(rentedMovie);
 	}
 
 	/**
-	 * Gets all registered movies in the database.
+	 * Gets the rental information by its identifier
 	 * 
-	 * @return List of registered movies
+	 * @param rentalId Rent identificator
+	 * @return rents by the Id
 	 */
-	@GetMapping("/movie")
-	public List<Movie> searchAllMovies()
+	@GetMapping("/rents/{rentalId}")
+	public ResponseEntity<Rental> searchRentalById(@PathVariable Integer rentalId)
 	{
-		List<Movie> movieList = new ArrayList<>();
+		Optional<Rental> rent = rentalRepository.findById(rentalId);
 
-		movieRepository.findAll().forEach(movie -> movieList.add(movie));
-
-		return movieList;
-	}
-
-	/**
-	 * Gets the movie information by its identifier
-	 * 
-	 * @param movieName Movie identificator
-	 * @return movie by the name
-	 */
-	@GetMapping("/movie/{movieName}")
-	public ResponseEntity<Movie> searchMovieByName(@PathVariable String movieName)
-	{
-		Optional<Movie> movie = movieRepository.findByName(movieName);
-
-		if (!movie.isPresent())
+		if (!rent.isPresent())
 		{
 			return ResponseEntity.notFound().build();
 		}
 
-		return ResponseEntity.ok(movie.get());
+		return ResponseEntity.ok(rent.get());
 	}
 
 	/**
-	 * Search for Movie list using user Id as filter
+	 * Search for Rent list using user Id as filter
 	 * 
 	 * @param userId user identificator
 	 * @return List of movies
 	 */
-	@GetMapping("/movie/user/{userId}")
-	public List<Movie> searchForUserIdfilter(@PathVariable Integer userId)
+	@GetMapping("/rent/user/{userId}")
+	public ResponseEntity<Rental> searchForUserIdfilter(@PathVariable Integer userId)
 	{
-		Optional<User> user = userRepository.findById(userId);
+		Optional<Rental> rent = rentalRepository.findById(userId);
 
-		return user.get().getMovieList();
+		return ResponseEntity.ok(rent.get());
 	}
 
 	/**
-	 * Updates a movie information.
+	 * Updates a rent information.
 	 *
-	 * @param movie     Information to update
-	 * @param movieName Name of the move to be updated
+	 * @param rent Information to update
+	 * @param rentId Id of the rent to be updated
 	 * @return Status Ok
 	 */
-	@PutMapping("/movie/{movieName}")
-	public ResponseEntity<Object> updateUser(@RequestBody Movie movie, @PathVariable String movieName)
+	@PutMapping("/rent/{rentalId}")
+	public ResponseEntity<Object> updateRents(@RequestBody Rental rent, @PathVariable Integer rentalId)
 	{
-		Optional<Movie> movieLoad = movieRepository.findByName(movieName);
+		Optional<Rental> rentalLoad = rentalRepository.findById(rentalId);
 
-		if (!movieLoad.isPresent())
+		if (!rentalLoad.isPresent())
 		{
 			return ResponseEntity.notFound().build();
 		}
 
-		movie.setMovieName(movieName);
+		rent.setRentalId(rentalId);
 
-		movieRepository.save(movie);
+		rentalRepository.save(rent);
 
 		return ResponseEntity.noContent().build();
 	}
@@ -125,7 +112,7 @@ public class RentalController
 	 * @param userId user identificator
 	 * @return status OK
 	 */
-	@PutMapping("/movie/user{userId}")
+	@PutMapping("/rent/user{userId}")
 	public ResponseEntity<Object> associateMovieToUser(@RequestBody User user, @PathVariable String movieName)
 	{
 		Optional<Movie> movie = movieRepository.findByName(movieName);
@@ -154,13 +141,13 @@ public class RentalController
 	}
 
 	/**
-	 * Delete movie by name
+	 * Delete rent by id
 	 * 
-	 * @param movieName Movie identificator
+	 * @param rentalId rent identificator
 	 */
-	@DeleteMapping("/movie/{movieName}")
-	public void deleteMovie(@PathVariable String movieName)
+	@DeleteMapping("/rental/{rentalId}")
+	public void deleteMovie(@PathVariable Integer rentalId)
 	{
-		movieRepository.deleteByName(movieName);
+		rentalRepository.deleteById(rentalId);
 	}
 }
