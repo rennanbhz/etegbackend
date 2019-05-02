@@ -1,7 +1,6 @@
 package com.eteg.backend.rental;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -24,8 +23,8 @@ public class Rental
 {
 	@Id @ GeneratedValue private Integer rentalId;
 	
-	@Column private Date dateOfRent;
-	@Column private Date dateOfReturn;
+	@Column private String dateOfRent;
+	@Column private String dateOfReturn;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Movie> movieList;
@@ -47,7 +46,7 @@ public class Rental
 	 * @param dateOfRent Date the movie was rented
 	 * @param dateOfReturn Date the movie was returned
 	 */
-	public Rental(Integer rentalId, Movie movieList, User userList, Date dateOfRent, Date dateOfReturn)
+	public Rental(Integer rentalId, Movie movieList, User userList, String dateOfRent, String dateOfReturn)
 	{
 		super();
 		this.rentalId = rentalId;
@@ -67,12 +66,20 @@ public class Rental
 		this.rentalId = rentalId;
 	}
 
-	public Date getDateOfReturn()
+	public String getDateOfRent() {
+		return dateOfRent;
+	}
+
+	public void setDateOfRent(String dateOfRent) {
+		this.dateOfRent = dateOfRent;
+	}
+
+	public String getDateOfReturn()
 	{
 		return dateOfReturn;
 	}
 
-	public void setDateOfReturn(Date dateOfReturn)
+	public void setDateOfReturn(String dateOfReturn)
 	{
 		this.dateOfReturn = dateOfReturn;
 	}

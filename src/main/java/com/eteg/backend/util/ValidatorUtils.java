@@ -65,9 +65,9 @@ public class ValidatorUtils
 	 * @param date
 	 * @return date Date of user
 	 */
-	public static boolean isValidDate(String date, String format) 
+	public static boolean isValidDate(String date) 
 	{         
-		SimpleDateFormat dateFormat = new SimpleDateFormat(format);     
+		SimpleDateFormat dateFormat = new SimpleDateFormat();     
 		dateFormat.setLenient(false);                                   
 		try 
 		{                                                           
@@ -90,12 +90,8 @@ public class ValidatorUtils
 		LocalDate birthDate = LocalDate.parse(bod, dateFormatter);
 		LocalDate today = LocalDate.now(ZoneId.of("Brazil"));
 		long age = ChronoUnit.YEARS.between(birthDate, today);
-		try {
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		if(age > 18) 
+		
+		if(age < 18) 
 		{
 			return true;
 		}

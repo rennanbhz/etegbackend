@@ -17,6 +17,7 @@ import com.eteg.backend.movie.Movie;
 import com.eteg.backend.movie.MovieRepository;
 import com.eteg.backend.user.User;
 import com.eteg.backend.user.UserRepository;
+import com.eteg.backend.util.ValidatorUtils;
 
 /**
  * Class responsible for exposing Rental Rest operations.
@@ -99,6 +100,31 @@ public class RentalController
 		}
 
 		rent.setRentalId(rentalId);
+
+		rentalRepository.save(rent);
+
+		return ResponseEntity.noContent().build();
+	}
+	
+	@PutMapping("/renew-rent/{rentalId}")
+	public ResponseEntity<Object> updateRentsToaNewDate(@RequestBody Rental rent, @PathVariable Integer rentalId, String newDateOfRent)
+	{
+		Optional<Rental> rentalLoad = rentalRepository.findById(rentalId);
+
+		if (!rentalLoad.isPresent())
+		{
+			return ResponseEntity.notFound().build();
+		}
+		try 
+		{
+			if (ValidatorUtils.isValidDate(newDateOfRent));
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
+		rent.setDateOfRent(newDateOfRent);
 
 		rentalRepository.save(rent);
 
