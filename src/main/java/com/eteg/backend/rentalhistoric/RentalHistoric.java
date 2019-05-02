@@ -1,4 +1,4 @@
-package com.eteg.backend.etegbackend.rentalhistoric;
+package com.eteg.backend.rentalhistoric;
 
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package com.eteg.backend.etegbackend.user;
+package com.eteg.backend.user;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import com.eteg.backend.movie.Movie;
 
 /** 
- * Represents a User
+ * Represents an User
  *
  * @author Renan Mattos
  */
@@ -27,7 +27,7 @@ public class User
 	@Column private String cpf;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Movie> movie;
+	private List<Movie> movieList;
 
 	public User()
 	{
@@ -48,7 +48,7 @@ public class User
 		this.name = name;
 		this.gender = gender;
 		this.cpf = cpf;
-		this.movie = Collections.singletonList(movie);
+		this.movieList = Collections.singletonList(movie);
 	}
 	
 	public Integer getUserId ()
@@ -91,13 +91,13 @@ public class User
 		this.cpf = cpf;
 	}
 	
-	public List<Movie> getmovieList() 
+	public List<Movie> getMovieList() 
 	  {
-	    return movie;
+	    return movieList;
 	  }
 
 	public void setMovieList(List<Movie> movie) 
 	  {
-	    this.movie = movie;
+	    this.movieList = movie;
 	  }
 }

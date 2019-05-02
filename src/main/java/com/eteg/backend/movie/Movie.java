@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import com.eteg.backend.etegbackend.user.User;
+import com.eteg.backend.user.User;
 
 /** 
  * Represents a Movie
